@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using HackApi.Data;
+using HackApi.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HackApi.ApiController
@@ -38,6 +40,8 @@ namespace HackApi.ApiController
             };
             var uploadResult = cloudinary.Upload(uploadParams);
 
+            HackContext context = HttpContext.RequestServices.GetService(typeof(HackContext)) as HackContext;
+            context.FillImageInfo(uploadResult);
             return uploadResult;
         }
         
@@ -53,6 +57,7 @@ namespace HackApi.ApiController
             var cloudinary = new Cloudinary(account);
             return cloudinary;
         }
+
 
     }
 }
