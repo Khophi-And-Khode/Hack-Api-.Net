@@ -33,9 +33,9 @@ namespace HackApi.Data
 
         }
 
-        public int FillImageInfo(ImageUploadResult model)
+        public int FillImageInfo(ImageUploadResult model,string name)
         {
-            var name = model.PublicId;
+            
             var height = model.Height;
             var width = model.Width;
             var sign = model.Signature;
@@ -47,6 +47,26 @@ namespace HackApi.Data
 
             var query = "INSERT INTO `ImageData`(`Name`, `Height`, `Width`, `Signature`, `PublicId`, `Url`, `SecureUrl`, `Format`, `ResourceType`) " +
                 "VALUES('" + name + "','" + height + "','" + width + "','" + sign + "','" + pubId + "','" + url + "','" + secureUrl + "','" + format + "','" + resType + "');";
+            //var prodQuery = "";
+            var command = CreateCommand(query);
+            var result = command.ExecuteNonQuery();
+            return result;
+        }
+
+        public int FillVideoInfo(VideoUploadResult model, string name)
+        {
+            var height = model.Height;
+            var width = model.Width;
+            var sign = model.Signature;
+            var pubId = model.PublicId;
+            var url = model.Uri;
+            var secureUrl = model.SecureUri;
+            var format = model.Format;
+            var resType = model.ResourceType;
+            var duration = model.Duration;
+
+            var query = "INSERT INTO `VideoData`(`Name`, `Height`, `Width`, `Signature`, `PublicId`, `Url`, `SecureUrl`, `Format`, `ResourceType`,`Duration`) " +
+                "VALUES('" + name + "','" + height + "','" + width + "','" + sign + "','" + pubId + "','" + url + "','" + secureUrl + "','" + format + "','" + resType + "','" + duration + "');";
             var command = CreateCommand(query);
             var result = command.ExecuteNonQuery();
             return result;

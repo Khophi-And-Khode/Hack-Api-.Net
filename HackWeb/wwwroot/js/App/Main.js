@@ -3,26 +3,20 @@
  * @Date: November 22,2018 18:00 
  /*////////////////////////////////
 
-var apiLink = apiUrl + "/api/main/upload/";
+var apiLink = apiUrl;
 
-
-
-var imgObj = document.getElementById("fileToUpload");
-var img = imgObj.textContent;
-function UpLoader() {
+var imgObj = document.getElementById("fileToUpload").innerHTML;
+var UpLoader = function () {
     $.ajax({
-        url: apiLink + img,
+        url: apiLink + "cy.jpg",
         method: "POST",
-        dataType: "json",
-        data: img,
-        contentType: "application/json",
+        contentType: "multipart/form-data",
         success: function (data) {
-            return data;
+            alert(data);
         }
     });
-}
-document.getElementById("btnUpload").addEventListener("click", UpLoader);
+};
 
 $(function () {
-
+    document.getElementById("btnUpload").addEventListener("click", UpLoader);
 });
