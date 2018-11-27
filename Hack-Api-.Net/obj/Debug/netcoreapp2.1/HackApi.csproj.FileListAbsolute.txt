@@ -61,3 +61,4 @@ C:\Personal Projects\Hack-Api-.Net\Hack-Api-.Net\obj\Debug\netcoreapp2.1\HackApi
 C:\Personal Projects\Hack-Api-.Net\Hack-Api-.Net\obj\Debug\netcoreapp2.1\HackApi.RazorTargetAssemblyInfo.cache
 C:\Personal Projects\Hack-Api-.Net\Hack-Api-.Net\obj\Debug\netcoreapp2.1\HackApi.dll
 C:\Personal Projects\Hack-Api-.Net\Hack-Api-.Net\obj\Debug\netcoreapp2.1\HackApi.pdb
+C:\Personal Projects\Hack-Api-.Net\Hack-Api-.Net\bin\Debug\netcoreapp2.1\videos\cocacolavid.mp4

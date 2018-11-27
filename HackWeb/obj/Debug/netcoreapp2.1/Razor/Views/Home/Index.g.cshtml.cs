@@ -127,7 +127,7 @@ using CloudinaryDotNet.Actions;
             WriteLiteral("    <img class=\"khofiImage\" src=\"https://res.cloudinary.com/wendolin/image/upload/v1542843490/web/table.jpg\" />\r\n        </div>\r\n        <div class=\"col-md-3\">\r\n            ");
             EndContext();
             BeginContext(2345, 290, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "28543796b1a64df59d3417f8b787abb1", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5dc40069650248f9b8d5f0e258a62da5", async() => {
                 BeginContext(2372, 256, true);
                 WriteLiteral(@"
                 <input type=""file"" autofocus id=""fileToUpload"" name=""fileToUpload"" multiple />
@@ -155,7 +155,7 @@ using CloudinaryDotNet.Actions;
             WriteLiteral("\r\n        </div>\r\n\r\n    </div>\r\n    \r\n</div>\r\n");
             EndContext();
             BeginContext(2681, 40, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7a97c93b962a4ef58f5f347d0be5a458", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d1a17c6e334c4af2acb2d17d3f88e93f", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

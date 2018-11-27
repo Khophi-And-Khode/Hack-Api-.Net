@@ -15,8 +15,8 @@ namespace HackApi.ApiController
     {
         public MainController() { }
 
-        [HttpPost("upload/{image}")]
-        public ImageUploadResult PostImageToServer(string image)
+        [HttpPost("uploadimage/{image}/as/{name}")]
+        public ImageUploadResult PostImageToServer(string image, string name)
         {
             var cloudinary = GetCloudinaryAccountInfo();
 
@@ -41,10 +41,41 @@ namespace HackApi.ApiController
             var uploadResult = cloudinary.Upload(uploadParams);
 
             HackContext context = HttpContext.RequestServices.GetService(typeof(HackContext)) as HackContext;
-            context.FillImageInfo(uploadResult);
+            context.FillImageInfo(uploadResult,name);
             return uploadResult;
         }
-        
+
+        [HttpPost("uploadvideo/{video}/as/{name}")]
+        public VideoUploadResult PostVideoToServer(string video, string name)
+        {
+            var cloudinary = GetCloudinaryAccountInfo();
+
+            var vidPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"videos/" + video);
+            var tranform = new Transformation().Crop("pad").Width(200).Height(200).
+                Duration(10).Quality(120).Radius(20).Effect("reverse").Flags("splice").AudioCodec("none");
+            var eagerTransform = new List<Transformation>() {
+                new Transformation().Width(250).Height(250).Crop("crop").Radius(20),
+                new Transformation().Width(100).Height(150).Crop("fit").Effect("brightness:20").AudioCodec("none")
+            };
+            var vidId = video.Substring(0, 10);
+            var uploadParams = new VideoUploadParams
+            {
+                File = new FileDescription(vidPath),
+                PublicId = vidId,
+                Transformation = tranform,
+                EagerTransforms = eagerTransform,
+                Tags = "Khophi_" + vidId,
+                Folder = "/videos",
+                Overwrite = true,
+                Colors = true,
+            };
+            var uploadResult = cloudinary.Upload(uploadParams);
+
+            HackContext context = HttpContext.RequestServices.GetService(typeof(HackContext)) as HackContext;
+            context.FillVideoInfo(uploadResult,name);
+            return uploadResult;
+        }
+
 
         public Cloudinary GetCloudinaryAccountInfo()
         {
