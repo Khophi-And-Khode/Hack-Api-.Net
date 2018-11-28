@@ -36,4 +36,11 @@ namespace HackApi.Model
         public double Duration { get; set; }
 
     }
+
+    public class VideoDataRequest
+    {
+        public string Name { get; set; }
+        public string Url { get; set; }
+
+    }
 }

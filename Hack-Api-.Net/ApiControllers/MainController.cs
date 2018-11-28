@@ -15,11 +15,11 @@ namespace HackApi.ApiController
     {
         public MainController() { }
 
-        [HttpPost("uploadimage/{image}/as/{name}")]
-        public ImageUploadResult PostImageToServer(string image, string name)
+        [HttpPost("uploadimage")]
+        public ImageUploadResult PostImageToServer([FromBody]ProductImage productImage)
         {
             var cloudinary = GetCloudinaryAccountInfo();
-
+            var image = productImage.ImageUrl;
             var imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"images/" + image);
             var tranform = new Transformation().Crop("scale").Width(200).Height(200);
             var eagerTransform = new List<Transformation>() {
@@ -41,15 +41,53 @@ namespace HackApi.ApiController
             var uploadResult = cloudinary.Upload(uploadParams);
 
             HackContext context = HttpContext.RequestServices.GetService(typeof(HackContext)) as HackContext;
-            context.FillImageInfo(uploadResult,name);
+            context.FillImageInfo(uploadResult,productImage.Name);
             return uploadResult;
         }
 
-        [HttpPost("uploadvideo/{video}/as/{name}")]
-        public VideoUploadResult PostVideoToServer(string video, string name)
+        [HttpPost("saveproduct")]
+        public ImageUploadResult PostImageToServerAndProduct([FromBody]ProductImage productImage)
+        {
+            Cloudinary cloudinary;
+            ImageUploadParams uploadParams;
+            ProcessParams(productImage, out cloudinary, out uploadParams);
+            var uploadResult = cloudinary.Upload(uploadParams);
+
+            HackContext context = HttpContext.RequestServices.GetService(typeof(HackContext)) as HackContext;
+            context.FillImageInfo(uploadResult, productImage.Name);
+            context.FillImageWithProduct(uploadResult, productImage.Name, productImage.Price, productImage.Content, productImage.Implication, productImage.Reviews);
+            return uploadResult;
+        }
+
+        private void ProcessParams(ProductImage productImage, out Cloudinary cloudinary, out ImageUploadParams uploadParams)
+        {
+            cloudinary = GetCloudinaryAccountInfo();
+            var image = productImage.ImageUrl;
+            var imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"images/" + image);
+            var tranform = new Transformation().Crop("scale").Width(200).Height(200);
+            var eagerTransform = new List<Transformation>() {
+                new Transformation().Width(250).Height(250).Crop("thumb").Gravity("face").Radius(20).Effect("sepia"),
+                new Transformation().Width(100).Height(150).Crop("fit")
+            };
+            var imageId = image.Substring(0, 5);
+            uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(imagePath),
+                PublicId = imageId,
+                Transformation = tranform,
+                EagerTransforms = eagerTransform,
+                Tags = "Khophi_" + imageId,
+                Folder = "/web",
+                Overwrite = true,
+                Colors = true
+            };
+        }
+
+        [HttpPost("uploadvideo")]
+        public VideoUploadResult PostVideoToServer([FromBody]VideoDataRequest req)
         {
             var cloudinary = GetCloudinaryAccountInfo();
-
+            var video = req.Url;
             var vidPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"videos/" + video);
             var tranform = new Transformation().Crop("pad").Width(200).Height(200).
                 Duration(10).Quality(120).Radius(20).Effect("reverse").Flags("splice").AudioCodec("none");
@@ -72,7 +110,7 @@ namespace HackApi.ApiController
             var uploadResult = cloudinary.Upload(uploadParams);
 
             HackContext context = HttpContext.RequestServices.GetService(typeof(HackContext)) as HackContext;
-            context.FillVideoInfo(uploadResult,name);
+            context.FillVideoInfo(uploadResult,req.Name);
             return uploadResult;
         }
 
